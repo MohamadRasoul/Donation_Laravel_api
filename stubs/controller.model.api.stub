@@ -1,0 +1,102 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+
+
+class {{ class }} extends Controller
+{
+  
+    public function index()
+    {
+        // Get Data
+        ${{ modelVariable }}s = {{ model }}::orderBy('id')->get();
+
+        // Return Response
+        return response()->success(
+            'this is all {{ model }}s',
+            [
+                "{{ modelVariable }}s" => {{ model }}Resource::collection(${{ modelVariable }}s),
+            ]
+        );
+    }
+
+
+    public function store(Request $request)
+    {
+
+        // Data Validate
+        $data = $request->validate([
+            'name'          => 'required',
+        ]);
+
+
+        // Store {{ model }}
+        ${{ modelVariable }} = {{ model }}::create($data);
+
+
+        // Add Image to {{ model }}
+        ${{ modelVariable }}
+            ->addMediaFromRequest('image')
+            ->toMediaCollection('${{ model }}');
+
+        // Return Response
+        return response()->success(
+            '{{ modelVariable }} is added success',
+            [
+                "{{ modelVariable }}" => new {{ model }}Resource(${{ modelVariable }}),
+            ]
+        );
+    }
+
+
+    public function show({{ model }} ${{ modelVariable }})
+    {
+        // Return Response
+        return response()->success(
+            'this is your {{ modelVariable }}',
+            [
+                "{{ modelVariable }}" => new {{ model }}Resource(${{ modelVariable }}),
+            ]
+        );
+    }
+
+    public function update(Request $request, {{ model }} ${{ modelVariable }})
+    {
+        // Data Validate
+        $data = $request->validate([
+            'name'          => 'nullable',
+        ]);
+
+        // Update {{ model }}
+        ${{ modelVariable }}->update($data);
+
+
+        // Edit Image for  {{ model }} if exist
+        if(!empty($request->image)) {
+            ${{ modelVariable }}
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('${{ model }}');
+        };
+
+
+        // Return Response
+        return response()->success(
+            '{{ modelVariable }} is updated success',
+            [
+                "{{ modelVariable }}" => new {{ model }}Resource(${{ modelVariable }}),
+            ]
+        );
+    }
+
+    public function destroy({{ model }} ${{ modelVariable }})
+    {
+        // Delete {{ model }}
+        ${{ modelVariable }}->delete();
+
+        // Return Response
+        return response()->success('{{ modelVariable }} is deleted success');
+    }
+}

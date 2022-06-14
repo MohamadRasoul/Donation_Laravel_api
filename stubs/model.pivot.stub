@@ -1,0 +1,35 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class {{ class }} extends Pivot
+{
+    use HasFactory;
+
+    protected $guarded = [];
+
+    protected $casts = [];
+
+
+    ########## Accessors / Mutators ##########
+
+    
+    ########## Relations ##########
+
+
+    ########## Query ##########
+
+
+    ########## Scopes ##########
+
+
+    ########## Libraries ##########
+
+
+    ########## OverWrite ##########
+
+
+}
