@@ -40,7 +40,7 @@ class {{ class }} extends Controller
         // Add Image to {{ model }}
         ${{ modelVariable }}
             ->addMediaFromRequest('image')
-            ->toMediaCollection('${{ model }}');
+            ->toMediaCollection('{{ model }}');
 
         // Return Response
         return response()->success(
@@ -75,10 +75,10 @@ class {{ class }} extends Controller
 
 
         // Edit Image for  {{ model }} if exist
-        if(!empty($request->image)) {
+        $request->image &&
             ${{ modelVariable }}
                 ->addMediaFromRequest('image')
-                ->toMediaCollection('${{ model }}');
+                ->toMediaCollection('{{ model }}');
         };
 
 
