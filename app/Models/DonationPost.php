@@ -23,6 +23,11 @@ class DonationPost extends Model implements HasMedia
         return $this->belongsToMany(StatusType::class, 'donation_statuses');
     }
 
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
 
     ########## Libraries ##########
 

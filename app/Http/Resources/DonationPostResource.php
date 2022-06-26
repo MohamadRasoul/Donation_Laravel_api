@@ -14,6 +14,18 @@ class DonationPostResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "id"                =>  $this->id,
+            "title"             =>  $this->title,
+            "description"       =>  $this->description,
+            "start_date"        =>  $this->start_date,
+            "end_date"          =>  $this->end_date,
+            "amount_required"   =>  $this->amount_required,
+            "amount_donated"    =>  $this->amount_donated,
+            "image"             =>  $this->getFirstMediaUrl("DonationPost"),
+            "branch_id"         =>  $this->branch_id,
+            "city"              =>  $this->city->name,
+            "status_types"      =>  StatusTypeResource::collection($this->statusTypes),
+        ];
     }
 }

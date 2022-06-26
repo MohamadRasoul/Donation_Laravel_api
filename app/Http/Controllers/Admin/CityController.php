@@ -14,7 +14,7 @@ class CityController extends Controller
     public function index()
     {
         // Get Data
-        $cities = City::orderBy('name')->get();
+        $cities = City::latest()->get();
 
         // Return Response
         return response()->success(

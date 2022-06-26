@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-//use Spatie\MediaLibrary\HasMedia;
-//use Spatie\MediaLibrary\InteractsWithMedia;
+use Psy\Sudo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class SupportProgram extends Model
+class SupportProgram extends Model implements HasMedia
 {
     use HasFactory;
-    //use InteractsWithMedia;
+    use InteractsWithMedia;
 
     protected $guarded = [];
 
@@ -19,17 +20,24 @@ class SupportProgram extends Model
 
     ########## Relations ##########
 
-
+    public function supportProgramType()
+    {
+        return $this->belongsTo(SupportProgram::class);
+    }
 
     ########## Libraries ##########
 
 
-    // public function registerMediaCollections(): void
-    // {
-    //     $this
-    //         ->addMediaCollection('SupportProgram')
-    //         ->useFallbackUrl(env('APP_URL') . '/images/default.jpg')
-    //         ->singleFile();
-    // }
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('SupportProgram')
+            ->useFallbackUrl(env('APP_URL') . '/images/default.jpg')
+            ->singleFile();
 
+        $this
+            ->addMediaCollection('SupportProgramInstructor')
+            ->useFallbackUrl(env('APP_URL') . '/images/default.jpg')
+            ->singleFile();
+    }
 }

@@ -170,6 +170,7 @@ Route::group([
         "prefix" => 'news'
     ], function () {
         Route::GET("index", [NewsController::class, 'index']);
+        Route::GET("charitablefoundation/{charitablefoundation}/index", [NewsController::class, 'indexByCharitablefoundation']);
         Route::GET("{news}/show", [NewsController::class, 'show']);
 
         Route::POST("store", [NewsController::class, 'store']);

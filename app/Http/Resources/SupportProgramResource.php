@@ -14,6 +14,18 @@ class SupportProgramResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "id"                      => $this->id,
+            "title"                   => $this->title,
+            "image"                   => $this->getFirstMediaUrl('SupportProgram'),
+            "description"             => $this->description,
+            "instructor"              => $this->instructor,
+            "image_instructor"        => $this->getFirstMediaUrl('SupportProgramInstructor'),
+            "begin_date"              => $this->begin_date,
+            "url_to_contact"          => $this->url_to_contact,
+            "is_available"            => $this->is_available,
+            "branch_id"               => $this->branch_id,
+            "support_program_type"    => $this->supportProgramType?->title,
+        ];
     }
 }

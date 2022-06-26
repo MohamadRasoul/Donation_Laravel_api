@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NewsResource;
+use App\Models\Charitablefoundation;
 use Illuminate\Http\Request;
 use App\Models\News;
-
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class NewsController extends Controller
 {
@@ -19,6 +21,23 @@ class NewsController extends Controller
         // Return Response
         return response()->success(
             'this is all Newss',
+            [
+                "news" => NewsResource::collection($news),
+            ]
+        );
+    }
+
+    public function indexByCharitablefoundation(Charitablefoundation $charitablefoundation)
+    {
+        // Get Data
+        $news = QueryBuilder::for($charitablefoundation->news()->latest())
+            ->allowedFilters([
+                AllowedFilter::exact('branch_id'),
+            ])->get();
+
+        // Return Response
+        return response()->success(
+            'this is all News',
             [
                 "news" => NewsResource::collection($news),
             ]

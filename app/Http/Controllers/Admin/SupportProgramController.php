@@ -67,6 +67,18 @@ class SupportProgramController extends Controller
         $supportProgram = SupportProgram::create($data);
 
 
+        // Add Image to SupportProgram
+        $request->image &&
+            $supportProgram
+            ->addMediaFromRequest('image')
+            ->toMediaCollection('SupportProgram');
+
+        $request->image_instructor &&
+            $supportProgram
+            ->addMediaFromRequest('image_instructor')
+            ->toMediaCollection('SupportProgramInstructor');
+
+
         // Return Response
         return response()->success(
             'supportProgram is added success',
@@ -102,6 +114,18 @@ class SupportProgramController extends Controller
 
         // Update SupportProgram
         $supportProgram->update($data);
+
+
+        // Update Image to SupportProgram
+        $request->image &&
+            $supportProgram
+            ->addMediaFromRequest('image')
+            ->toMediaCollection('SupportProgram');
+
+        $request->image_instructor &&
+            $supportProgram
+            ->addMediaFromRequest('image_instructor')
+            ->toMediaCollection('SupportProgramInstructor');
 
 
         // Return Response

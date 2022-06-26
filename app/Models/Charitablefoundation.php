@@ -34,6 +34,11 @@ class Charitablefoundation extends Model implements HasMedia
         return $this->hasManyThrough(SupportProgram::class, Branch::class);
     }
 
+    public function news()
+    {
+        return $this->hasManyThrough(News::class, Branch::class);
+    }
+
 
     ########## Libraries ##########
 
