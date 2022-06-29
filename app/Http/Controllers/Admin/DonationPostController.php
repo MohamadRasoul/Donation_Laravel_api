@@ -63,9 +63,7 @@ class DonationPostController extends Controller
             'start_date'       => 'required',
             'end_date'         => 'required',
             'amount_required'  => 'required',
-            'amount_donated'   => 'required',
             'branch_id'        => 'required',
-            'donation_type_id' => 'required',
             'post_type_id'     => 'required',
             'city_id'          => 'required',
         ]);
@@ -76,7 +74,8 @@ class DonationPostController extends Controller
         $donationPost->statusTypes()->sync($request->status_type_id);
 
         // Add Image to DonationPost
-        $donationPost
+        $request->image &&
+            $donationPost
             ->addMediaFromRequest('image')
             ->toMediaCollection('DonationPost');
 

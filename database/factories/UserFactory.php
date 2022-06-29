@@ -20,7 +20,6 @@ class UserFactory extends Factory
             'phone_number'      => $this->faker->phoneNumber(),
             'email'             => $this->faker->unique()->safeEmail(),
             'city'              => $this->faker->city(),
-            'region'            => $this->faker->state(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
 
             'email_verified_at' => now(),

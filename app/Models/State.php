@@ -19,7 +19,10 @@ class State extends Model implements HasMedia
 
     ########## Relations ##########
 
-
+    public function donationPost()
+    {
+        return $this->belongsTo(DonationPost::class);
+    }
 
     ########## Libraries ##########
 

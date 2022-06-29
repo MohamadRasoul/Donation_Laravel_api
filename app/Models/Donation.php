@@ -16,10 +16,14 @@ class Donation extends Model
 
     protected $casts = [];
 
+    protected $touches = ['user'];
 
     ########## Relations ##########
 
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     ########## Libraries ##########
 

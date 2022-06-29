@@ -31,7 +31,7 @@ return new class extends Migration
             ######## Foreign keys  ########
 
             $table->foreignIdFor(Branch::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(DonationType::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(DonationType::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(PostType::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(City::class)->constrained()->cascadeOnDelete();
 

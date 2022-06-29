@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\{
     DonationPostController,
     SupportProgramController,
     SupportProgramTypeController,
+    UserController,
     CityController,
     DonationTypeController,
     PostTypeController,
@@ -21,6 +22,17 @@ Route::group([
     "middleware" => ['auth:api', 'role:Admin']
 ], function () {
 
+
+    #region ############ User ############ 
+    Route::group([
+        "prefix" => 'user'
+    ], function () {
+        Route::GET("indexDonors", [UserController::class, 'indexDonors']);
+        Route::GET("indexSponsors", [UserController::class, 'indexSponsors']);
+        Route::GET("{user}/show", [UserController::class, 'show']);  #*
+
+    });
+    #endregion
 
     #region ############ City ############ 
     Route::group([

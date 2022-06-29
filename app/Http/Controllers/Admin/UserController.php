@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -10,10 +11,32 @@ use App\Models\User;
 class UserController extends Controller
 {
 
-    public function index()
+    public function indexDonors()
     {
         // Get Data
-        $users = User::latest()->get();
+        $users = User::query()
+            ->has('donations')
+            ->withSum('donations', 'amount')
+            ->latest("updated_at")
+            ->get();
+
+        // Return Response
+        return response()->success(
+            'this is all Users',
+            [
+                "users" => UserResource::collection($users),
+            ]
+        );
+    }
+
+    public function indexSponsors()
+    {
+        // Get Data
+        $users = User::query()
+            ->has('sponsorShips')
+            ->withSum('sponsorShips', 'amount')
+            ->latest("updated_at")
+            ->get();
 
         // Return Response
         return response()->success(
@@ -78,9 +101,8 @@ class UserController extends Controller
         // Edit Image for  User if exist
         $request->image &&
             $user
-                ->addMediaFromRequest('image')
-                ->toMediaCollection('User');
-        };
+            ->addMediaFromRequest('image')
+            ->toMediaCollection('User');
 
 
         // Return Response
