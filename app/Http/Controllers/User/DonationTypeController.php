@@ -77,7 +77,7 @@ class DonationTypeController extends Controller
 
 
         // Edit Image for  DonationType if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $donationType
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('DonationType');

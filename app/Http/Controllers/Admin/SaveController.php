@@ -77,7 +77,7 @@ class SaveController extends Controller
 
 
         // Edit Image for  Save if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $save
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('Save');

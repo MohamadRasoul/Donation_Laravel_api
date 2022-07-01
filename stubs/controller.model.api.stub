@@ -75,7 +75,7 @@ class {{ class }} extends Controller
 
 
         // Edit Image for  {{ model }} if exist
-        $request->image &&
+        $request->hasFile('image') &&
             ${{ modelVariable }}
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('{{ model }}');

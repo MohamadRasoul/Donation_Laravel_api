@@ -21,7 +21,7 @@ class DonationPostResource extends JsonResource
             "start_date"        =>  $this->start_date,
             "end_date"          =>  $this->end_date,
             "amount_required"   =>  $this->amount_required,
-            "amount_donated"    =>  $this->amount_donated,
+            "amount_donated"    =>  $this->amount_donated ? $this->amount_donated : 0,
             "image"             =>  $this->getFirstMediaUrl("DonationPost"),
             "branch_id"         =>  $this->branch_id,
             "city"              =>  $this->city->name,

@@ -68,12 +68,12 @@ class SupportProgramController extends Controller
 
 
         // Add Image to SupportProgram
-        $request->image &&
+        $request->hasFile('image') &&
             $supportProgram
             ->addMediaFromRequest('image')
             ->toMediaCollection('SupportProgram');
 
-        $request->image_instructor &&
+        $request->hasFile('image')_instructor &&
             $supportProgram
             ->addMediaFromRequest('image_instructor')
             ->toMediaCollection('SupportProgramInstructor');
@@ -117,12 +117,12 @@ class SupportProgramController extends Controller
 
 
         // Update Image to SupportProgram
-        $request->image &&
+        $request->hasFile('image') &&
             $supportProgram
             ->addMediaFromRequest('image')
             ->toMediaCollection('SupportProgram');
 
-        $request->image_instructor &&
+        $request->hasFile('image')_instructor &&
             $supportProgram
             ->addMediaFromRequest('image_instructor')
             ->toMediaCollection('SupportProgramInstructor');

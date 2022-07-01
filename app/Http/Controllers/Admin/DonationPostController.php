@@ -73,10 +73,10 @@ class DonationPostController extends Controller
         // Store DonationPost
         $donationPost = DonationPost::create($data);
 
-        $donationPost->statusTypes()->sync($request->status_type_id);
+        $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
 
         // Add Image to DonationPost
-        $request->image &&
+        $request->hasFile('image') &&
             $donationPost
             ->addMediaFromRequest('image')
             ->toMediaCollection('DonationPost');
@@ -110,10 +110,10 @@ class DonationPostController extends Controller
             // Store DonationPost
             $donationPost = DonationPost::create($donationPostDate);
 
-            $donationPost->statusTypes()->sync($request->status_type_id);
+            $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
 
             // Add Image to DonationPost
-            $request->image &&
+            $request->hasFile('image') &&
                 $donationPost
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('DonationPost');
@@ -130,23 +130,22 @@ class DonationPostController extends Controller
                 'mother_name'        => 'required',
             ]);
 
-
             // Store State
             $state = $donationPost->state()->create($stateData);
 
 
             // Add Image to State
-            $request->state_image &&
+            $request->hasFile('state_image') &&
                 $state
                 ->addMediaFromRequest('state_image')
                 ->toMediaCollection('State');
 
-            $request->idCard_front_image &&
+            $request->hasFile('idCard_front_image') &&
                 $state
                 ->addMediaFromRequest('idCard_front_image')
                 ->toMediaCollection('IdCardFront');
 
-            $request->idCard_back_image &&
+            $request->hasFile('idCard_back_image') &&
                 $state
                 ->addMediaFromRequest('idCard_back_image')
                 ->toMediaCollection('IdCardBack');
@@ -194,7 +193,7 @@ class DonationPostController extends Controller
 
 
         // Edit Image for DonationPost if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $donationPost
             ->addMediaFromRequest('image')
             ->toMediaCollection('DonationPost');

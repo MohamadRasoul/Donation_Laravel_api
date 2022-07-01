@@ -77,7 +77,7 @@ class StateController extends Controller
 
 
         // Edit Image for  State if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $state
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('State');

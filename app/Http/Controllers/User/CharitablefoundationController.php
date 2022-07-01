@@ -77,7 +77,7 @@ class CharitablefoundationController extends Controller
 
 
         // Edit Image for  Charitablefoundation if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $charitablefoundation
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('Charitablefoundation');

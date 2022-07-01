@@ -77,7 +77,7 @@ class DonationStatusController extends Controller
 
 
         // Edit Image for  DonationStatus if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $donationStatus
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('DonationStatus');

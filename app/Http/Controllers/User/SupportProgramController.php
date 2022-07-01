@@ -77,7 +77,7 @@ class SupportProgramController extends Controller
 
 
         // Edit Image for  SupportProgram if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $supportProgram
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('SupportProgram');

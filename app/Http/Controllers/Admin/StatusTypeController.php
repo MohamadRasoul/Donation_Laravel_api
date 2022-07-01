@@ -41,7 +41,7 @@ class StatusTypeController extends Controller
 
 
         // Add Image to StatusType
-        $request->image &&
+        $request->hasFile('image') &&
             $statusType
             ->addMediaFromRequest('image')
             ->toMediaCollection('StatusType');
@@ -80,7 +80,7 @@ class StatusTypeController extends Controller
 
 
         // Edit Image for  StatusType if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $statusType
             ->addMediaFromRequest('image')
             ->toMediaCollection('StatusType');

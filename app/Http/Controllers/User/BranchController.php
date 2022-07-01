@@ -77,7 +77,7 @@ class BranchController extends Controller
 
 
         // Edit Image for  Branch if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $branch
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('Branch');

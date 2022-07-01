@@ -42,7 +42,7 @@ class CityController extends Controller
 
 
         // Add Image to City
-        $request->image &&
+        $request->hasFile('image') &&
         $city
             ->addMediaFromRequest('image')
             ->toMediaCollection('City');
@@ -84,7 +84,7 @@ class CityController extends Controller
 
 
         // Edit Image for  City if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $city
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('City');

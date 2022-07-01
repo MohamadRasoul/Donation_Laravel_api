@@ -61,7 +61,7 @@ class NewsController extends Controller
 
 
         // Add Image to News
-        $request->image &&
+        $request->hasFile('image') &&
             $news
             ->addMediaFromRequest('image')
             ->toMediaCollection('News');
@@ -100,7 +100,7 @@ class NewsController extends Controller
 
 
         // Edit Image for  News if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $news
             ->addMediaFromRequest('image')
             ->toMediaCollection('News');

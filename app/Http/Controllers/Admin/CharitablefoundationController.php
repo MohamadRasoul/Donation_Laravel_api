@@ -42,13 +42,13 @@ class CharitablefoundationController extends Controller
         $charitablefoundation = Charitablefoundation::create($data);
 
         // Add Image to Charitablefoundation
-        $request->image &&
+        $request->hasFile('image') &&
             $charitablefoundation
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('Charitablefoundation');
         
 
-        $request->cover &&
+        $request->hasFile('cover') &&
             $charitablefoundation
             ->addMediaFromRequest('cover')
             ->toMediaCollection('Charitablefoundation_cover');
@@ -90,12 +90,12 @@ class CharitablefoundationController extends Controller
 
 
         // Edit Image for  Charitablefoundation if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $charitablefoundation
             ->addMediaFromRequest('image')
             ->toMediaCollection('Charitablefoundation');
 
-        $request->cover &&
+        $request->hasFile('cover') &&
             $charitablefoundation
             ->addMediaFromRequest('cover')
             ->toMediaCollection('Charitablefoundation_cover');

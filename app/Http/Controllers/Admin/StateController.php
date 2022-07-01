@@ -63,17 +63,17 @@ class StateController extends Controller
 
 
         // Add Image to State
-        $request->image &&
+        $request->hasFile('image') &&
             $state
             ->addMediaFromRequest('image')
             ->toMediaCollection('State');
 
-        $request->idCard_front_image &&
+        $request->hasFile('idCard_front_image') &&
             $state
             ->addMediaFromRequest('idCard_front_image')
             ->toMediaCollection('IdCardFront');
 
-        $request->idCard_back_image &&
+        $request->hasFile('idCard_back_image') &&
             $state
             ->addMediaFromRequest('idCard_back_image')
             ->toMediaCollection('IdCardBack');
@@ -115,17 +115,17 @@ class StateController extends Controller
         $state->update($data);
 
         // Edit Image for  State if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $state
             ->addMediaFromRequest('image')
             ->toMediaCollection('State');
 
-        $request->idCard_front_image &&
+        $request->hasFile('idCard_front_image') &&
             $state
             ->addMediaFromRequest('idCard_front_image')
             ->toMediaCollection('IdCardFront');
 
-        $request->idCard_back_image &&
+        $request->hasFile('idCard_back_image') &&
             $state
             ->addMediaFromRequest('idCard_back_image')
             ->toMediaCollection('IdCardBack');

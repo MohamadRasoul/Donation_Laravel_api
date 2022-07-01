@@ -77,7 +77,7 @@ class SponsorShipController extends Controller
 
 
         // Edit Image for  SponsorShip if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $sponsorShip
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('SponsorShip');

@@ -42,7 +42,7 @@ class PostTypeController extends Controller
 
 
         // Add Image to PostType
-        $request->image &&
+        $request->hasFile('image') &&
             $postType
             ->addMediaFromRequest('image')
             ->toMediaCollection('PostType');
@@ -82,7 +82,7 @@ class PostTypeController extends Controller
 
 
         // Edit Image for  PostType if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $postType
             ->addMediaFromRequest('image')
             ->toMediaCollection('PostType');

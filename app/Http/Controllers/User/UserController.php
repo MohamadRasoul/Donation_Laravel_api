@@ -77,7 +77,7 @@ class UserController extends Controller
 
 
         // Edit Image for  User if exist
-        $request->image &&
+        $request->hasFile('image') &&
             $user
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('User');
