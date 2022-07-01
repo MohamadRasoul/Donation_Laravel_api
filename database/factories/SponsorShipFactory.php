@@ -18,12 +18,11 @@ class SponsorShipFactory extends Factory
     public function definition()
     {
         return [
-            'amount'                    => $this->faker->numberBetween($min = 1000, $max = 35000),
-            'take_automatic'            => $this->faker->boolean,
-            'month_day_to_pay'          => $this->faker->numberBetween($min = 1, $max = 30),
-            'month_count_keep_paying'   => $this->faker->numberBetween($min = 3, $max = 12),
+            'amount'              => $this->faker->numberBetween($min = 1000, $max = 35000),
+            'month_to_pay'        => $this->faker->dateTimeBetween($startDate = 'now', $endDate = '+ 360 days', $timezone = null),
+            'is_delivery'         => $this->faker->boolean(),
 
-            'user_id'                   => User::all()->random()->id,
+            'user_id'             => User::all()->random()->id,
         ];
     }
 }

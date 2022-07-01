@@ -7,6 +7,8 @@ use App\Http\Resources\DonationPostResource;
 use App\Models\Charitablefoundation;
 use Illuminate\Http\Request;
 use App\Models\DonationPost;
+use App\Models\State;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -54,7 +56,7 @@ class DonationPostController extends Controller
 
 
 
-    public function store(Request $request)
+    public function storeCampaign(Request $request)
     {
         // Data Validate
         $data = $request->validate([
@@ -88,6 +90,86 @@ class DonationPostController extends Controller
         );
     }
 
+
+    public function store(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            // donationPost Data Validate
+            $donationPostDate = $request->validate([
+                'title'            => 'required',
+                'description'      => 'required',
+                'start_date'       => 'required',
+                'end_date'         => 'required',
+                'amount_required'  => 'required',
+                'branch_id'        => 'required',
+                'post_type_id'     => 'required',
+                'city_id'          => 'required',
+            ]);
+
+            // Store DonationPost
+            $donationPost = DonationPost::create($donationPostDate);
+
+            $donationPost->statusTypes()->sync($request->status_type_id);
+
+            // Add Image to DonationPost
+            $request->image &&
+                $donationPost
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('DonationPost');
+
+
+
+            // State Data Validate
+            $stateData = $request->validate([
+                'first_name'         => 'required',
+                'last_name'          => 'required',
+                'id_number'          => 'required',
+                'phone_number'       => 'required',
+                'father_name'        => 'required',
+                'mother_name'        => 'required',
+            ]);
+
+
+            // Store State
+            $state = $donationPost->state()->create($stateData);
+
+
+            // Add Image to State
+            $request->state_image &&
+                $state
+                ->addMediaFromRequest('state_image')
+                ->toMediaCollection('State');
+
+            $request->idCard_front_image &&
+                $state
+                ->addMediaFromRequest('idCard_front_image')
+                ->toMediaCollection('IdCardFront');
+
+            $request->idCard_back_image &&
+                $state
+                ->addMediaFromRequest('idCard_back_image')
+                ->toMediaCollection('IdCardBack');
+
+
+            DB::commit();
+
+
+            // Return Response
+            return response()->success(
+                'donationPost is added success',
+                [
+                    "donationPost" => new DonationPostResource($donationPost),
+                ]
+            );
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->error(
+                'donationPost is not added '
+            );
+        }
+    }
 
     public function show(DonationPost $donationPost)
     {

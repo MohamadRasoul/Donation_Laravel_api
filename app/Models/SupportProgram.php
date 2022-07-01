@@ -22,7 +22,7 @@ class SupportProgram extends Model implements HasMedia
 
     public function supportProgramType()
     {
-        return $this->belongsTo(SupportProgram::class);
+        return $this->belongsTo(SupportProgramType::class);
     }
 
     ########## Libraries ##########

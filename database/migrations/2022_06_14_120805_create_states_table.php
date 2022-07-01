@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('father_name');
             $table->string('mother_name');
+            
+            $table->double('amount_delivery')->default(0);
 
             ######## Foreign keys  ########
 

@@ -28,6 +28,16 @@ class DonationPost extends Model implements HasMedia
         return $this->belongsTo(City::class);
     }
 
+    public function state()
+    {
+        return $this->hasOne(State::class);
+    }
+
+    public function sponsorShips()
+    {
+        return $this->hasMany(SponsorShip::class);
+    }
+
 
     ########## Libraries ##########
 

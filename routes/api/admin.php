@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     CharitableFoundationController,
@@ -16,6 +14,7 @@ use App\Http\Controllers\Admin\{
     StatusTypeController,
     StateController,
     NewsController,
+    SponsorShipController,
 };
 
 Route::group([
@@ -115,6 +114,7 @@ Route::group([
         Route::GET("{donationPost}/show", [DonationPostController::class, 'show']);
 
         Route::POST("store", [DonationPostController::class, 'store']);
+        Route::POST("storeCampaign", [DonationPostController::class, 'storeCampaign']);
         Route::POST("{donationPost}/update", [DonationPostController::class, 'update']);
         Route::DELETE("{donationPost}/destroy", [DonationPostController::class, 'destroy']);
     });
@@ -167,11 +167,13 @@ Route::group([
     Route::group([
         "prefix" => 'state'
     ], function () {
-        Route::GET("index", [StateController::class, 'index']);
+        Route::GET("indexDonation", [StateController::class, 'indexDonation']);
+        Route::GET("indexSponsorShip", [StateController::class, 'indexSponsorShip']);
         Route::GET("{state}/show", [StateController::class, 'show']);
 
         // Route::POST("store", [StateController::class, 'store']);
         Route::POST("{state}/update", [StateController::class, 'update']);
+        Route::POST("{state}/updateAmount", [StateController::class, 'updateAmount']);
         // Route::DELETE("{state}/destroy", [StateController::class, 'destroy']);
     });
     #endregion
@@ -192,9 +194,13 @@ Route::group([
     #endregion
 
 
-
-
-
+    #region ############ SponsorShip ############
+    Route::group([
+        "prefix" => 'sponsorShip'
+    ], function () {
+        Route::POST("/{sponsorShip}/updateDeliveryToDone", [SponsorShipController::class, 'updateDeliveryToDone']);
+    });
+    #endregion
 
 
 

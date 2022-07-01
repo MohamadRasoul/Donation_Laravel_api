@@ -3,24 +3,41 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StateDonationResource;
 use Illuminate\Http\Request;
 use App\Http\Resources\StateResource;
+use App\Http\Resources\StateSponsorShipResource;
 use App\Models\State;
 
 
 class StateController extends Controller
 {
 
-    public function index()
+    public function indexDonation()
     {
         // Get Data
-        $states = State::latest()->get();
+        $states = State::whereRelation('donationPost', 'post_type_id', '!=', 2)->latest()->get();
 
         // Return Response
         return response()->success(
             'this is all States',
             [
-                "states" => StateResource::collection($states),
+                "states" => StateDonationResource::collection($states),
+            ]
+        );
+    }
+
+    public function indexSponsorShip()
+    {
+        // Get Data
+        $states = State::whereRelation('donationPost', 'post_type_id', 2)->latest()->get();
+
+
+        // Return Response
+        return response()->success(
+            'this is all States',
+            [
+                "states" => StateSponsorShipResource::collection($states),
             ]
         );
     }
@@ -123,4 +140,22 @@ class StateController extends Controller
         );
     }
 
+    public function updateAmount(Request $request, State $state)
+    {
+
+
+        // Update State
+        $state->update([
+            'amount_delivery'  => $state->amount_delivery + $request->amount_delivery
+        ]);
+
+
+        // Return Response
+        return response()->success(
+            'state amount delivery is updated success',
+            [
+                "state" => new StateResource($state),
+            ]
+        );
+    }
 }

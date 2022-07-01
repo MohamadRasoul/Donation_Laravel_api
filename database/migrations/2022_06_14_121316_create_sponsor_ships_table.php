@@ -19,9 +19,8 @@ return new class extends Migration
             $table->id();
 
             $table->double('amount');
-            $table->boolean('take_automatic');
-            $table->string('month_day_to_pay');
-            $table->integer('month_count_keep_paying');
+            $table->date('month_to_pay');
+            $table->boolean('is_delivery')->default(0);
 
             ######## Foreign keys  ########
 

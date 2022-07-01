@@ -25,6 +25,11 @@ class Donation extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function donationPost()
+    {
+        return $this->belongsTo(DonationPost::class);
+    }
+
     ########## Libraries ##########
 
 

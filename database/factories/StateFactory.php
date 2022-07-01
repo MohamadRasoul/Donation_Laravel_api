@@ -23,6 +23,8 @@ class StateFactory extends Factory
             "phone_number"   => $this->faker->ean8(),
             "father_name"   => $this->faker->name,
             "mother_name"   => $this->faker->name,
+
+            "amount_delivery" => $this->faker->numberBetween(1, 1000),
         ];
     }
 }
