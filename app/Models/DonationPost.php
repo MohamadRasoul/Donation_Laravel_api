@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use \Znck\Eloquent\Traits\BelongsToThrough;
 
 class DonationPost extends Model implements HasMedia
 {
     use HasFactory;
-    use InteractsWithMedia;
+    use InteractsWithMedia, BelongsToThrough;
 
     protected $guarded = [];
 
@@ -26,6 +27,11 @@ class DonationPost extends Model implements HasMedia
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function charitablefoundation()
+    {
+        return $this->BelongsToThrough(Charitablefoundation::class, Branch::class);
     }
 
     public function state()

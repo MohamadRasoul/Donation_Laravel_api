@@ -38,9 +38,7 @@ class AuthController extends Controller
             "last_name"      => "required",
             "email"          => "required|email|unique:users",
             "phone_number"   => "required",
-            "city"           => "required",
-            "region"         => "required",
-            "password"       => "required|confirmed"
+            "password"       => "required"
         ]);
 
         $user = User::create([
@@ -48,14 +46,12 @@ class AuthController extends Controller
             'last_name'    => $request->last_name,
             'email'        => $request->email,
             'phone_number' => $request->phone_number,
-            'city'         => $request->city,
-            'region'       => $request->region,
             'password'     => bcrypt($request->password),
 
         ]);
 
         $user->assignRole('User');
-        
+
         $token = Auth::login($user);
 
         return $this->profile($token);
@@ -70,6 +66,7 @@ class AuthController extends Controller
         ]);
 
         $token = Auth::attempt($credentials);
+
         if (!$token) {
             return response()->error("Invalid credentials");
         }
@@ -84,6 +81,7 @@ class AuthController extends Controller
     public function profile($token = null)
     {
         $user = auth()->user();
+
         return response()->success(
             "User profile data",
             [

@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\{
 };
 
 Route::group([
-    "middleware" => ['auth:api', 'role:Admin']
+    "middleware" => []
 ], function () {
 
 

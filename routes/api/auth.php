@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post("register/0", [AuthController::class, "registerAdmin"]);
 Route::post("register/1", [AuthController::class, "registerUser"]);
+
 Route::post("login/{role}", [AuthController::class, "login"]);
 
 Route::group([

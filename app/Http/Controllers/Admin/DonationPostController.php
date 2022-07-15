@@ -40,7 +40,6 @@ class DonationPostController extends Controller
         $donationPosts = QueryBuilder::for($charitablefoundation->donationPosts()->latest())
             ->allowedFilters([
                 AllowedFilter::exact('branch_id'),
-                AllowedFilter::exact('donation_type_id'),
                 AllowedFilter::exact('post_type_id'),
                 AllowedFilter::exact('city_id'),
             ])->get();
@@ -53,8 +52,6 @@ class DonationPostController extends Controller
             ]
         );
     }
-
-
 
     public function storeCampaign(Request $request)
     {

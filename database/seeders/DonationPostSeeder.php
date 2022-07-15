@@ -18,7 +18,7 @@ class DonationPostSeeder extends Seeder
     public function run()
     {
 
-        DonationPost::factory(300)->create()->each(
+        DonationPost::factory(50)->create()->each(
             function ($donationPost) {
                 State::factory([
                     'donation_post_id' => $donationPost->id,

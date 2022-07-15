@@ -25,6 +25,8 @@ class DonationPostResource extends JsonResource
             "image"             =>  $this->getFirstMediaUrl("DonationPost"),
             "branch_id"         =>  $this->branch_id,
             "city"              =>  $this->city->name,
+            "charitableFoundation" =>  $this->charitablefoundation->name,
+            "charitableFoundation_image" =>  $this->charitablefoundation->getFirstMediaUrl('Charitablefoundation'),
             "status_types"      =>  StatusTypeResource::collection($this->statusTypes),
         ];
     }
