@@ -16,7 +16,7 @@ class PostTypeFactory extends Factory
         return [
             'title'                   => $this->faker->catchPhrase,
             'description'             => $this->faker->text(200),
-            'color'                   => $this->faker->hexcolor,
+            // 'color'                   => $this->faker->hexcolor,
         ];
     }
 }
