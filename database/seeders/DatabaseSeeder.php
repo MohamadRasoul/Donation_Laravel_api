@@ -22,8 +22,6 @@ class DatabaseSeeder extends Seeder
             BranchSeeder::class,
             SupportProgramTypeSeeder::class,
             SupportProgramSeeder::class,
-            // StateSeeder::class,
-            DonationTypeSeeder::class,
             PostTypeSeeder::class,
             StatusTypeSeeder::class,
             DonationPostSeeder::class,

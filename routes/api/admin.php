@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\{
     SupportProgramTypeController,
     UserController,
     CityController,
-    DonationTypeController,
     PostTypeController,
     StatusTypeController,
     StateController,
@@ -149,18 +148,6 @@ Route::group([
     #endregion
 
 
-    #region ############ DonationType ############ 
-    Route::group([
-        "prefix" => 'donationType'
-    ], function () {
-        Route::GET("index", [DonationTypeController::class, 'index']);
-        Route::GET("{donationType}/show", [DonationTypeController::class, 'show']);
-
-        Route::POST("store", [DonationTypeController::class, 'store']);
-        Route::POST("{donationType}/update", [DonationTypeController::class, 'update']);
-        Route::DELETE("{donationType}/destroy", [DonationTypeController::class, 'destroy']);
-    });
-    #endregion
 
 
     #region ############ State ############ 
