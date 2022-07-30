@@ -18,22 +18,18 @@ class PostTypeSeeder extends Seeder
                 [
                     'title'       => 'Cases',
                     'description' => 'after they lost their father, who was arrested in 2013. Dima is an innocent girl aspiring to live a happy life despite poverty and living in a dilapidated house. Let',
-                    'color'       => '#FF2D00'
                 ],
                 [
                     'title'       => 'Sponsorships',
                     'description' => 'after they lost their father, who was arrested in 2013. Dima is an innocent girl aspiring to live a happy life despite poverty and living in a dilapidated house. Let',
-                    'color'       => '#059700'
                 ],
                 [
                     'title'       => 'Campaigns',
                     'description' => 'after they lost their father, who was arrested in 2013. Dima is an innocent girl aspiring to live a happy life despite poverty and living in a dilapidated house. Let',
-                    'color'       => '#007597'
                 ],
                 [
                     'title'       => 'Education',
                     'description' => 'after they lost their father, who was arrested in 2013. Dima is an innocent girl aspiring to live a happy life despite poverty and living in a dilapidated house. Let',
-                    'color'       => '#C40015'
                 ]
             ]
         );

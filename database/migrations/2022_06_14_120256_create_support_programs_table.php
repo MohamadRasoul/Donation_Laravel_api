@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Branch;
+use App\Models\City;
 use App\Models\SupportProgramType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -28,6 +29,7 @@ return new class extends Migration
             ######## Foreign keys  ########
 
             $table->foreignIdFor(Branch::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(City::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(SupportProgramType::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();

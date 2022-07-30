@@ -21,7 +21,7 @@ Route::group([
 ], function () {
 
 
-    #region ############ User ############ 
+    #region ############ User ############
     Route::group([
         "prefix" => 'user'
     ], function () {
@@ -32,7 +32,7 @@ Route::group([
     });
     #endregion
 
-    #region ############ City ############ 
+    #region ############ City ############
     Route::group([
         "prefix" => 'city'
     ], function () {
@@ -46,11 +46,11 @@ Route::group([
     #endregion
 
 
-    #region ############ CharitableFoundation ############  
+    #region ############ CharitableFoundation ############
     Route::group([
         "prefix" => 'charitablefoundation'
     ], function () {
-        Route::GET("index", [CharitableFoundationController::class, 'index']);
+        Route::GET("index", [CharitablefoundationController::class, 'index']);
         Route::GET("{charitablefoundation}/show", [CharitableFoundationController::class, 'show']);
 
         Route::POST("store", [CharitableFoundationController::class, 'store']);
@@ -61,7 +61,7 @@ Route::group([
     #endregion
 
 
-    #region ############ Branches ############ 
+    #region ############ Branches ############
     Route::group([
         "prefix" => 'branch'
     ], function () {
@@ -75,7 +75,7 @@ Route::group([
     #endregion
 
 
-    #region ############ SupportProgramType ############ 
+    #region ############ SupportProgramType ############
     Route::group([
         "prefix" => 'supportProgramType'
     ], function () {
@@ -89,7 +89,7 @@ Route::group([
     #endregion
 
 
-    #region ############ SupportProgram ############ 
+    #region ############ SupportProgram ############
     Route::group([
         "prefix" => 'supportProgram'
     ], function () {
@@ -103,8 +103,8 @@ Route::group([
     });
     #endregion
 
-    
-    #region ############ DonationPost ############ 
+
+    #region ############ DonationPost ############
     Route::group([
         "prefix" => 'donationPost'
     ], function () {
@@ -120,7 +120,7 @@ Route::group([
     #endregion
 
 
-    #region ############ PostType ############ 
+    #region ############ PostType ############
     Route::group([
         "prefix" => 'postType'
     ], function () {
@@ -150,7 +150,7 @@ Route::group([
 
 
 
-    #region ############ State ############ 
+    #region ############ State ############
     Route::group([
         "prefix" => 'state'
     ], function () {
@@ -191,7 +191,7 @@ Route::group([
 
 
 
-    #region ############ Support ############ 
+    #region ############ Support ############
     Route::GET("charitablefoundation/{charitablefoundation}/supportProgram", [SupportProgramController::class, 'indexByCharitablefoundation']);
     Route::GET("branch/{branch}/supportProgram", [SupportProgramController::class, 'indexByBranch']);
     Route::GET("supportProgram/{supportProgram}", [SupportProgramController::class, 'show']);

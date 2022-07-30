@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Branch;
+use App\Models\City;
 use App\Models\SupportProgramType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,6 +24,7 @@ class SupportProgramFactory extends Factory
             'url_to_contact'          => $this->faker->url,
             'is_available'            => $this->faker->boolean,
             'branch_id'               => Branch::all()->random()->id,
+            'city_id'                 => City::all()->random()->id,
             'support_program_type_id' => SupportProgramType::all()->random()->id,
         ];
     }

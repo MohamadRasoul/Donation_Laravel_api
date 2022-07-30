@@ -19,6 +19,7 @@ class SupportProgramController extends Controller
         $supportPrograms = QueryBuilder::for(SupportProgram::latest())
             ->allowedFilters([
                 AllowedFilter::exact('support_program_type_id'),
+                AllowedFilter::exact('city_id'),
             ])->get();
 
         // Return Response
@@ -61,6 +62,7 @@ class SupportProgramController extends Controller
             'url_to_contact'          => 'required',
             'support_program_type_id' => 'required',
             'branch_id'               => 'required',
+            'city_id'                 => 'required',
         ]);
 
         // Store SupportProgram
@@ -73,7 +75,7 @@ class SupportProgramController extends Controller
             ->addMediaFromRequest('image')
             ->toMediaCollection('SupportProgram');
 
-        $request->hasFile('image')_instructor &&
+        $request->hasFile('image_instructor') &&
             $supportProgram
             ->addMediaFromRequest('image_instructor')
             ->toMediaCollection('SupportProgramInstructor');
@@ -122,7 +124,7 @@ class SupportProgramController extends Controller
             ->addMediaFromRequest('image')
             ->toMediaCollection('SupportProgram');
 
-        $request->hasFile('image')_instructor &&
+        $request->hasFile('image_instructor')   &&
             $supportProgram
             ->addMediaFromRequest('image_instructor')
             ->toMediaCollection('SupportProgramInstructor');

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->string('email')->nullable();
             $table->string('phone_number')->nullable();
+            $table->double('amount_delivery')->default(0);
+
 
             $table->timestamps();
         });

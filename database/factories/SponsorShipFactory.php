@@ -20,7 +20,6 @@ class SponsorShipFactory extends Factory
         return [
             'amount'              => $this->faker->numberBetween($min = 1000, $max = 35000),
             'month_to_pay'        => $this->faker->dateTimeBetween($startDate = 'now', $endDate = '+ 360 days', $timezone = null),
-            'is_delivery'         => $this->faker->boolean(),
 
             'user_id'             => User::all()->random()->id,
         ];
