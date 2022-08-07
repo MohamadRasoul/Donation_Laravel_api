@@ -40,7 +40,6 @@ class CityController extends Controller
         // Store City
         $city = City::create($data);
 
-
         // Add Image to City
         $request->hasFile('image') &&
         $city

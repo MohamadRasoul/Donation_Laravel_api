@@ -26,6 +26,8 @@ class SupportProgramResource extends JsonResource
             "is_available"            => $this->is_available,
             "branch_id"               => $this->branch_id,
             "support_program_type"    => $this->supportProgramType->title,
+            "support_program_type_id" => $this->support_program_type_id,
+            "city_id"                 => $this->city_id,
         ];
     }
 }

@@ -180,28 +180,82 @@ class DonationPostController extends Controller
 
     public function update(Request $request, DonationPost $donationPost)
     {
-        // Data Validate
-        $data = $request->validate([
-            'name'          => 'nullable',
-        ]);
+        DB::beginTransaction();
+        try {
+            // donationPost Data Validate
+            $donationPostDate = $request->validate([
+                'title'            => 'nullable',
+                'description'      => 'nullable',
+                'start_date'       => 'nullable',
+                'end_date'         => 'nullable',
+                'amount_required'  => 'nullable',
+                'branch_id'        => 'nullable',
+                'post_type_id'     => 'nullable',
+                'city_id'          => 'nullable',
+            ]);
 
-        // Update DonationPost
-        $donationPost->update($data);
+            // Store DonationPost
+            $donationPost->update($donationPostDate);
+
+            $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
+
+            // Add Image to DonationPost
+            $request->hasFile('image') &&
+                $donationPost
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('DonationPost');
 
 
-        // Edit Image for DonationPost if exist
-        $request->hasFile('image') &&
-            $donationPost
-            ->addMediaFromRequest('image')
-            ->toMediaCollection('DonationPost');
 
-        // Return Response
-        return response()->success(
-            'donationPost is updated success',
-            [
-                "donationPost" => new DonationPostResource($donationPost),
-            ]
-        );
+            // State Data Validate
+            $stateData = $request->validate([
+                'first_name'         => 'nullable',
+                'last_name'          => 'nullable',
+                'id_number'          => 'nullable',
+                'phone_number'       => 'nullable',
+                'father_name'        => 'nullable',
+                'mother_name'        => 'nullable',
+            ]);
+
+            // Store State
+            $state = $donationPost->state()->update($stateData);
+
+
+            // Add Image to State
+            $request->hasFile('state_image') &&
+                $state
+                ->addMediaFromRequest('state_image')
+                ->toMediaCollection('State');
+
+            $request->hasFile('idCard_front_image') &&
+                $state
+                ->addMediaFromRequest('idCard_front_image')
+                ->toMediaCollection('IdCardFront');
+
+            $request->hasFile('idCard_back_image') &&
+                $state
+                ->addMediaFromRequest('idCard_back_image')
+                ->toMediaCollection('IdCardBack');
+
+
+            DB::commit();
+
+
+
+            // Return Response
+            return response()->success(
+                'donationPost is updated success',
+                [
+                    "donationPost" => new DonationPostResource($donationPost),
+                ]
+            );
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->error(
+                'donationPost is not updated '
+            );
+        }
     }
 
     public function destroy(DonationPost $donationPost)

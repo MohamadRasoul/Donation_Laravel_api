@@ -19,15 +19,15 @@ class BranchFactory extends Factory
     public function definition()
     {
         return [
-            'description'               => $this->faker->paragraph($nbSentences = 3, $variableNbSentences = true),
-            'phone_number'               => $this->faker->e164PhoneNumber,
-            'email'                     => $this->faker->email,
-            'address'                    => $this->faker->paragraph($nbSentences = 3, $variableNbSentences = true),
-            'latitude'                  => $this->faker->latitude($min = -90, $max = 90),
-            'longitude'                 => $this->faker->longitude($min = -180, $max = 180),
+            'name'                     => $this->faker->company(),
+            'phone_number'             => $this->faker->e164PhoneNumber,
+            'email'                    => $this->faker->email,
+            'address'                  => $this->faker->paragraph($nbSentences = 3, $variableNbSentences = true),
+            'latitude'                 => $this->faker->latitude($min = -90, $max = 90),
+            'longitude'                => $this->faker->longitude($min = -180, $max = 180),
 
             'charitablefoundation_id'  => Charitablefoundation::all()->random()->id,
-            'city_id'                  =>City::all()->random()->id,
+            'city_id'                  => City::all()->random()->id,
         ];
     }
 }

@@ -38,6 +38,7 @@ class SupportProgramController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('support_program_type_id'),
                 AllowedFilter::exact('branch_id'),
+                AllowedFilter::exact('city_id'),
             ])->get();
 
         // Return Response

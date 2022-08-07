@@ -16,7 +16,7 @@ class BranchResource extends JsonResource
     {
         return [
             "id"                       => $this->id,
-            "description"              => $this->description,
+            "name"                     => $this->name,
             "phone_number"             => $this->phone_number,
             "email"                    => $this->email,
             "address"                  => $this->address,

@@ -18,10 +18,11 @@ return new class extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
 
-            $table->text('description')->nullable();
+            $table->string('name')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
-            
+            $table->double('amount_delivery')->default(0);
+
             $table->text('address');
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();

@@ -31,7 +31,7 @@ class BranchController extends Controller
 
         // Data Validate
         $data = $request->validate([
-            'description'             => 'required',
+            'name'                    => 'required',
             'phone_number'            => 'required',
             'email'                   => 'required',
             'address'                 => 'required',
@@ -71,12 +71,12 @@ class BranchController extends Controller
     {
         // Data Validate
         $data = $request->validate([
-            'description'             => 'nullable',
-            'phone_number'            => 'nullable',
-            'email'                   => 'nullable',
-            'address'                 => 'nullable',
-            'latitude'                => 'nullable',
-            'longitude'               => 'nullable',
+            'name'          => 'nullable',
+            'phone_number'  => 'nullable',
+            'email'         => 'nullable',
+            'address'       => 'nullable',
+            'latitude'      => 'nullable',
+            'longitude'     => 'nullable',
         ]);
 
         // Update Branch
