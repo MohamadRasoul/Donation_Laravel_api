@@ -31,7 +31,7 @@ class DonationController extends Controller
 
         // Data Validate
         $data = $request->validate([
-            'name'          => 'required',
+            'name'          => 'required|regex:/(^[A-Za-z ]+$)+/',
         ]);
 
 
@@ -69,7 +69,7 @@ class DonationController extends Controller
     {
         // Data Validate
         $data = $request->validate([
-            'name'          => 'nullable',
+            'name'          => 'nullable|regex:/(^[A-Za-z ]+$)+/',
         ]);
 
         // Update Donation

@@ -31,7 +31,7 @@ class CityController extends Controller
 
         // Data Validate
         $data = $request->validate([
-            'name'          => 'required',
+            'name'          => 'required|regex:/(^[A-Za-z ]+$)+/',
             'latitude'          => 'required',
             'longitude'          => 'required',
         ]);
@@ -72,7 +72,7 @@ class CityController extends Controller
 
         // Data Validate
         $data = $request->validate([
-            'name'          => 'nullable',
+            'name'          => 'nullable|regex:/(^[A-Za-z ]+$)+/',
             'latitude'          => 'nullable',
             'longitude'          => 'nullable',
         ]);

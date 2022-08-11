@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\DonationPostResource;
+use App\Http\Resources\DonationPostResource;
+use App\Models\Charitablefoundation;
 use Illuminate\Http\Request;
 use App\Models\DonationPost;
-
+use Carbon\Carbon;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class DonationPostController extends Controller
 {
@@ -14,7 +17,17 @@ class DonationPostController extends Controller
     public function index()
     {
         // Get Data
-        $donationPosts = DonationPost::latest()->get();
+
+        $donationPostsQuery = DonationPost::query()
+            ->where('start_date', '<', Carbon::now())
+            ->where('end_date', '>', Carbon::now())->latest();
+
+        $donationPosts = QueryBuilder::for($donationPostsQuery)
+            ->allowedFilters([
+                AllowedFilter::exact('donation_type_id'),
+                AllowedFilter::exact('post_type_id'),
+                AllowedFilter::exact('city_id'),
+            ])->get();
 
         // Return Response
         return response()->success(
@@ -25,80 +38,27 @@ class DonationPostController extends Controller
         );
     }
 
-
-    public function store(Request $request)
+    public function indexByCharitablefoundation(Charitablefoundation $charitablefoundation)
     {
+        // Get Data
 
-        // Data Validate
-        $data = $request->validate([
-            'name'          => 'required',
-        ]);
+        $donationPostsQuery = $charitablefoundation->donationPosts()
+            ->where('start_date', '<', Carbon::now())
+            ->where('end_date', '>', Carbon::now())->latest();
 
-
-        // Store DonationPost
-        $donationPost = DonationPost::create($data);
-
-
-        // Add Image to DonationPost
-        $donationPost
-            ->addMediaFromRequest('image')
-            ->toMediaCollection('DonationPost');
+        $donationPosts = QueryBuilder::for($donationPostsQuery)
+            ->allowedFilters([
+                AllowedFilter::exact('branch_id'),
+                AllowedFilter::exact('post_type_id'),
+                AllowedFilter::exact('city_id'),
+            ])->get();
 
         // Return Response
         return response()->success(
-            'donationPost is added success',
+            'this is all DonationPosts',
             [
-                "donationPost" => new DonationPostResource($donationPost),
+                "donationPosts" => DonationPostResource::collection($donationPosts),
             ]
         );
-    }
-
-
-    public function show(DonationPost $donationPost)
-    {
-        // Return Response
-        return response()->success(
-            'this is your donationPost',
-            [
-                "donationPost" => new DonationPostResource($donationPost),
-            ]
-        );
-    }
-
-    public function update(Request $request, DonationPost $donationPost)
-    {
-        // Data Validate
-        $data = $request->validate([
-            'name'          => 'nullable',
-        ]);
-
-        // Update DonationPost
-        $donationPost->update($data);
-
-
-        // Edit Image for  DonationPost if exist
-        $request->hasFile('image') &&
-            $donationPost
-                ->addMediaFromRequest('image')
-                ->toMediaCollection('DonationPost');
-        };
-
-
-        // Return Response
-        return response()->success(
-            'donationPost is updated success',
-            [
-                "donationPost" => new DonationPostResource($donationPost),
-            ]
-        );
-    }
-
-    public function destroy(DonationPost $donationPost)
-    {
-        // Delete DonationPost
-        $donationPost->delete();
-
-        // Return Response
-        return response()->success('donationPost is deleted success');
     }
 }

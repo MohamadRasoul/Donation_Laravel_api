@@ -3,18 +3,27 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SupportProgramResource;
 use Illuminate\Http\Request;
-use App\Http\Controllers\SupportProgramResource;
+use App\Models\Charitablefoundation;
 use App\Models\SupportProgram;
-
+use Carbon\Carbon;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SupportProgramController extends Controller
 {
-
     public function index()
     {
         // Get Data
-        $supportPrograms = SupportProgram::latest()->get();
+        $supportProgramsQuery = SupportProgram::query()
+            ->where('begin_date', '>', Carbon::now())->latest();
+
+        $supportPrograms = QueryBuilder::for($supportProgramsQuery)
+            ->allowedFilters([
+                AllowedFilter::exact('support_program_type_id'),
+                AllowedFilter::exact('city_id'),
+            ])->get();
 
         // Return Response
         return response()->success(
@@ -26,79 +35,25 @@ class SupportProgramController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function indexByCharitablefoundation(Charitablefoundation $charitablefoundation)
     {
+        // Get Data
+        $supportProgramsQuery = $charitablefoundation->supportPrograms()
+            ->where('begin_date', '>', Carbon::now())->latest();
 
-        // Data Validate
-        $data = $request->validate([
-            'name'          => 'required',
-        ]);
-
-
-        // Store SupportProgram
-        $supportProgram = SupportProgram::create($data);
-
-
-        // Add Image to SupportProgram
-        $supportProgram
-            ->addMediaFromRequest('image')
-            ->toMediaCollection('SupportProgram');
+        $supportPrograms = QueryBuilder::for($supportProgramsQuery)
+            ->allowedFilters([
+                AllowedFilter::exact('support_program_type_id'),
+                AllowedFilter::exact('branch_id'),
+                AllowedFilter::exact('city_id'),
+            ])->get();
 
         // Return Response
         return response()->success(
-            'supportProgram is added success',
+            'this is all SupportPrograms',
             [
-                "supportProgram" => new SupportProgramResource($supportProgram),
+                "supportPrograms" => SupportProgramResource::collection($supportPrograms),
             ]
         );
-    }
-
-
-    public function show(SupportProgram $supportProgram)
-    {
-        // Return Response
-        return response()->success(
-            'this is your supportProgram',
-            [
-                "supportProgram" => new SupportProgramResource($supportProgram),
-            ]
-        );
-    }
-
-    public function update(Request $request, SupportProgram $supportProgram)
-    {
-        // Data Validate
-        $data = $request->validate([
-            'name'          => 'nullable',
-        ]);
-
-        // Update SupportProgram
-        $supportProgram->update($data);
-
-
-        // Edit Image for  SupportProgram if exist
-        $request->hasFile('image') &&
-            $supportProgram
-                ->addMediaFromRequest('image')
-                ->toMediaCollection('SupportProgram');
-        };
-
-
-        // Return Response
-        return response()->success(
-            'supportProgram is updated success',
-            [
-                "supportProgram" => new SupportProgramResource($supportProgram),
-            ]
-        );
-    }
-
-    public function destroy(SupportProgram $supportProgram)
-    {
-        // Delete SupportProgram
-        $supportProgram->delete();
-
-        // Return Response
-        return response()->success('supportProgram is deleted success');
     }
 }

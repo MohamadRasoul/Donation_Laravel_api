@@ -31,7 +31,7 @@ class BranchController extends Controller
 
         // Data Validate
         $data = $request->validate([
-            'name'                    => 'required',
+            'name'                    => 'required|regex:/(^[A-Za-z ]+$)+/',
             'phone_number'            => 'required',
             'email'                   => 'required',
             'address'                 => 'required',
@@ -71,7 +71,7 @@ class BranchController extends Controller
     {
         // Data Validate
         $data = $request->validate([
-            'name'          => 'nullable',
+            'name'          => 'nullable|regex:/(^[A-Za-z ]+$)+/',
             'phone_number'  => 'nullable',
             'email'         => 'nullable',
             'address'       => 'nullable',
