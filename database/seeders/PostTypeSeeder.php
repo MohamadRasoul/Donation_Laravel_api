@@ -26,10 +26,6 @@ class PostTypeSeeder extends Seeder
                 [
                     'title'       => 'Campaigns',
                     'description' => 'after they lost their father, who was arrested in 2013. Dima is an innocent girl aspiring to live a happy life despite poverty and living in a dilapidated house. Let',
-                ],
-                [
-                    'title'       => 'Education',
-                    'description' => 'after they lost their father, who was arrested in 2013. Dima is an innocent girl aspiring to live a happy life despite poverty and living in a dilapidated house. Let',
                 ]
             ]
         );

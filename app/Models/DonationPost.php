@@ -24,6 +24,11 @@ class DonationPost extends Model implements HasMedia
         return $this->belongsToMany(StatusType::class, 'donation_statuses');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'donations');
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);
@@ -42,6 +47,11 @@ class DonationPost extends Model implements HasMedia
     public function sponsorShips()
     {
         return $this->hasMany(SponsorShip::class);
+    }
+
+    public function news()
+    {
+        return $this->hasMany(News::class);
     }
 
 

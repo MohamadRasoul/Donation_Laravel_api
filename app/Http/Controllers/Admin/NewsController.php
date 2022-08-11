@@ -16,7 +16,10 @@ class NewsController extends Controller
     public function index()
     {
         // Get Data
-        $news = News::latest()->get();
+        $news = QueryBuilder::for(News::latest())
+            ->allowedFilters([
+                AllowedFilter::exact('charitablefoundation_id'),
+            ])->get();
 
         // Return Response
         return response()->success(

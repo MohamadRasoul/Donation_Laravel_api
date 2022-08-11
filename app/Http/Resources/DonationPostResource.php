@@ -14,12 +14,17 @@ class DonationPostResource extends JsonResource
      */
     public function toArray($request)
     {
+        $startDate = \Carbon\Carbon::createFromFormat('Y-m-d', $this->start_date);
+        $endDate = \Carbon\Carbon::createFromFormat('Y-m-d', $this->end_date);
+        $is_active = \Carbon\Carbon::now()->between($startDate, $endDate);
+
         return [
             "id"                         =>  $this->id,
             "title"                      =>  $this->title,
             "description"                =>  $this->description,
             "start_date"                 =>  $this->start_date,
             "end_date"                   =>  $this->end_date,
+            "is_activate"                =>  $is_active,
             "amount_required"            =>  $this->amount_required,
             "amount_donated"             =>  $this->amount_donated ? $this->amount_donated : 0,
             "image"                      =>  $this->getFirstMediaUrl("DonationPost"),
@@ -31,12 +36,12 @@ class DonationPostResource extends JsonResource
             "status_type_id"             =>  $this->statusTypes->pluck('id'),
             "status_types"               =>  StatusTypeResource::collection($this->statusTypes),
 
-            'first_name'                 => $this->state->first_name,
-            'last_name'                  => $this->state->last_name,
-            'id_number'                  => $this->state->id_number,
-            'phone_number'               => $this->state->phone_number,
-            'father_name'                => $this->state->father_name,
-            'mother_name'                => $this->state->mother_name,
+            'first_name'                 => $this->state?->first_name,
+            'last_name'                  => $this->state?->last_name,
+            'id_number'                  => $this->state?->id_number,
+            'phone_number'               => $this->state?->phone_number,
+            'father_name'                => $this->state?->father_name,
+            'mother_name'                => $this->state?->mother_name,
         ];
     }
 }

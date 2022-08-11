@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+
 class Charitablefoundation extends Model implements HasMedia
 {
     use HasFactory;
@@ -26,6 +27,11 @@ class Charitablefoundation extends Model implements HasMedia
     public function donationPosts()
     {
         return $this->hasManyThrough(DonationPost::class, Branch::class);
+    }
+
+    public function donations()
+    {
+        return $this->hasManyThrough(Donation::class, DonationPost::class);
     }
 
     public function supportPrograms()

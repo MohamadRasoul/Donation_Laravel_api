@@ -13,11 +13,11 @@ use App\Models\State;
 class StateController extends Controller
 {
 
-    public function indexDonation()
+    public function indexDonationState()
     {
         // Get Data
-        $states = State::whereRelation('donationPost', 'post_type_id', '!=', 2)->latest()->get();
-
+        $states = State::whereRelation('donationPost', 'post_type_id', 1)->latest()->get();
+        
         // Return Response
         return response()->success(
             'this is all States',

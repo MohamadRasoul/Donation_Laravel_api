@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
 
             $table->double('amount');
-            $table->date('month_to_pay');
+            $table->timestamp('month_to_pay');
             // $table->boolean('is_delivery')->default(0);
 
             ######## Foreign keys  ########

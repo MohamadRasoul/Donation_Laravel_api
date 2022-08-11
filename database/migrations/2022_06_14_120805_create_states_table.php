@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Charitablefoundation;
 use App\Models\DonationPost;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,12 +24,13 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('father_name');
             $table->string('mother_name');
-            
+
             $table->double('amount_delivery')->default(0);
 
             ######## Foreign keys  ########
 
             $table->foreignIdFor(DonationPost::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Charitablefoundation::class)->constrained()->cascadeOnDelete();
 
 
             $table->timestamps();

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Charitablefoundation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,8 +24,9 @@ class StateFactory extends Factory
             "phone_number"   => $this->faker->ean8(),
             "father_name"   => $this->faker->name,
             "mother_name"   => $this->faker->name,
+            'charitablefoundation_id'  => Charitablefoundation::all()->random()->id,
+            
 
-            "amount_delivery" => $this->faker->numberBetween(1, 1000),
         ];
     }
 }

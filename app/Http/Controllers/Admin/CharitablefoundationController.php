@@ -6,6 +6,9 @@ use App\Http\Resources\CharitablefoundationResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Charitablefoundation;
+use App\Models\Donation;
+use App\Models\DonationPost;
+use Carbon\Carbon;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class CharitablefoundationController extends Controller
@@ -25,6 +28,132 @@ class CharitablefoundationController extends Controller
         );
     }
 
+    public function showDonateStatistics(Request $request)
+    {
+        $month = $request->month;
+        $charitablefoundation_id = $request->charitablefoundation_id;
+
+        //get Donations
+        $allDonation = Donation::query();
+        $charitablefoundationDonation = collect();
+
+        if ($charitablefoundation_id) {
+            $charitablefoundation = Charitablefoundation::find($charitablefoundation_id);
+            $charitablefoundationDonation = $charitablefoundation->donations();
+        }
+
+
+        // filter by month
+        if ($month) {
+            $allDonation->whereMonth(
+                'created_at',
+                '=',
+                Carbon::parse($month)->month
+            );
+
+            if ($charitablefoundation_id) {
+                $charitablefoundationDonation->whereMonth(
+                    'donations.created_at',
+                    '=',
+                    Carbon::parse($month)->month
+                );
+            }
+        }
+        // sum amount of donation 
+
+        // $charitablefoundationDonation = 
+        return response()->success(
+            'charitablefoundation is added success',
+            [
+                "sumAllDonation"                  => $allDonation->sum('amount'),
+                "sumCharitablefoundationDonation" => $charitablefoundationDonation->sum('amount'),
+            ]
+        );
+    }
+
+    public function showPostStatistics(Request $request)
+    {
+        $month = $request->month;
+        $charitablefoundation_id = $request->charitablefoundation_id;
+
+        //get DonationPost
+        $allDonationPost = DonationPost::query();
+        $charitablefoundationDonationPost = collect();
+
+        if ($charitablefoundation_id) {
+            $charitablefoundation = Charitablefoundation::find($charitablefoundation_id);
+            $charitablefoundationDonationPost = $charitablefoundation->donationPosts();
+        }
+
+
+        // filter by month
+        if ($month) {
+            $allDonationPost->whereMonth(
+                'created_at',
+                '=',
+                Carbon::parse($month)->month
+            );
+
+            if ($charitablefoundation_id) {
+                $charitablefoundationDonationPost->whereMonth(
+                    'created_at',
+                    '=',
+                    Carbon::parse($month)->month
+                );
+            }
+        }
+        // count amount of donation 
+
+        return response()->success(
+            'charitablefoundation is added success',
+            [
+                "countAllDonationPost"                  => $allDonationPost->count(),
+                "countCharitablefoundationDonationPost" => $charitablefoundationDonationPost->count(),
+            ]
+        );
+    }
+
+    public function showActivityStatistics(Request $request)
+    {
+        $month = $request->month;
+        $charitablefoundation_id = $request->charitablefoundation_id;
+
+        //get Donations
+        $allDonation = Donation::query();
+        $charitablefoundationDonation = collect();
+
+        if ($charitablefoundation_id) {
+            $charitablefoundation = Charitablefoundation::find($charitablefoundation_id);
+            $charitablefoundationDonation = $charitablefoundation->donations();
+        }
+
+
+        // filter by month
+        if ($month) {
+            $allDonation->whereMonth(
+                'created_at',
+                '=',
+                Carbon::parse($month)->month
+            );
+
+            if ($charitablefoundation_id) {
+                $charitablefoundationDonation->whereMonth(
+                    'donations.created_at',
+                    '=',
+                    Carbon::parse($month)->month
+                );
+            }
+        }
+        // count amount of donation 
+
+        return response()->success(
+            'charitablefoundation is added success',
+            [
+                "countAllDonation"                  => $allDonation->count(),
+                "countCharitablefoundationDonation" => $charitablefoundationDonation->count(),
+            ]
+        );
+    }
 
     public function store(Request $request)
     {
@@ -44,9 +173,9 @@ class CharitablefoundationController extends Controller
         // Add Image to Charitablefoundation
         $request->hasFile('image') &&
             $charitablefoundation
-                ->addMediaFromRequest('image')
-                ->toMediaCollection('Charitablefoundation');
-        
+            ->addMediaFromRequest('image')
+            ->toMediaCollection('Charitablefoundation');
+
 
         $request->hasFile('cover') &&
             $charitablefoundation

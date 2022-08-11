@@ -32,6 +32,16 @@ Route::group([
     });
     #endregion
 
+    #region ############ Statistic ############
+    Route::group([
+        "prefix" => 'statistic'
+    ], function () {
+        Route::GET("showDonateStatistics", [CharitablefoundationController::class, 'showDonateStatistics']);
+        Route::GET("showPostStatistics", [CharitablefoundationController::class, 'showPostStatistics']);
+        Route::GET("showActivityStatistics", [CharitablefoundationController::class, 'showActivityStatistics']);
+    });
+    #endregion
+
     #region ############ City ############
     Route::group([
         "prefix" => 'city'
@@ -70,6 +80,7 @@ Route::group([
 
         Route::POST("store", [BranchController::class, 'store']);
         Route::POST("{branch}/update", [BranchController::class, 'update']);
+        Route::POST("{branch}/addAmountDelivery", [BranchController::class, 'addAmountDelivery']);
         Route::DELETE("{branch}/destroy", [BranchController::class, 'destroy']);
     });
     #endregion
@@ -109,6 +120,7 @@ Route::group([
         "prefix" => 'donationPost'
     ], function () {
         Route::GET("index", [DonationPostController::class, 'index']);
+        Route::GET("campaign/index", [DonationPostController::class, 'indexCampaign']);
         Route::GET("charitablefoundation/{charitablefoundation}/index", [DonationPostController::class, 'indexByCharitablefoundation']);
         Route::GET("{donationPost}/show", [DonationPostController::class, 'show']);
 
@@ -154,7 +166,7 @@ Route::group([
     Route::group([
         "prefix" => 'state'
     ], function () {
-        Route::GET("indexDonation", [StateController::class, 'indexDonation']);
+        Route::GET("indexDonationState", [StateController::class, 'indexDonationState']);
         Route::GET("indexSponsorShip", [StateController::class, 'indexSponsorShip']);
         Route::GET("{state}/show", [StateController::class, 'show']);
 

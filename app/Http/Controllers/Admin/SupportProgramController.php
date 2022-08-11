@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\SupportProgramResource;
+use App\Models\Branch;
 use App\Models\Charitablefoundation;
 use App\Models\SupportProgram;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -81,6 +82,24 @@ class SupportProgramController extends Controller
             ->addMediaFromRequest('image_instructor')
             ->toMediaCollection('SupportProgramInstructor');
 
+
+        $branch = Branch::find($request->branch_id);
+
+        // Add News
+        $newsData = [
+            'title'             => $request->title,
+            'description'       => 'New support programming is added for you subscribe to in ' . $branch->name,
+            'branch_id'         => $request->branch_id,
+        ];
+        // Store News
+        $news = $supportProgram->news()->create($newsData);
+
+        // Add Image to News
+        $request->hasFile('image') &&
+            $news
+            ->addMedia($supportProgram->getFirstMediaPath('SupportProgram'))
+            ->preservingOriginal()
+            ->toMediaCollection('News');
 
         // Return Response
         return response()->success(

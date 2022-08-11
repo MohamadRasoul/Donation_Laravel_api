@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Branch;
+use App\Models\Charitablefoundation;
 use App\Models\City;
 use App\Models\PostType;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,6 +24,7 @@ class DonationPostFactory extends Factory
             'end_date'          => $this->faker->dateTimeBetween($startDate = '+ 20 days', $endDate = '+ 90 days', $timezone = null),
             'amount_required'   => $this->faker->numberBetween($min = 1000, $max = 35000),
             'amount_donated'    => $this->faker->numberBetween($min = 100, $max = 5000),
+            'charitablefoundation_id'  => Charitablefoundation::all()->random()->id,
 
             'branch_id'         => Branch::all()->random()->id,
             'post_type_id'      => PostType::all()->random()->id,

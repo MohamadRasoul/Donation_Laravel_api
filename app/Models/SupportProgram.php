@@ -25,6 +25,11 @@ class SupportProgram extends Model implements HasMedia
         return $this->belongsTo(SupportProgramType::class);
     }
 
+    public function news()
+    {
+        return $this->hasMany(News::class);
+    }
+
     ########## Libraries ##########
 
 

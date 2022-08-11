@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Branch;
+use App\Models\Charitablefoundation;
 use App\Models\City;
 use App\Models\PostType;
 use Illuminate\Database\Migrations\Migration;
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->foreignIdFor(Branch::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(PostType::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(City::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Charitablefoundation::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });

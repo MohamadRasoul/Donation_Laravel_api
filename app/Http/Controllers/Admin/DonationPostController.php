@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CampaignResource;
 use App\Http\Resources\DonationPostResource;
+use App\Models\Branch;
 use App\Models\Charitablefoundation;
 use Illuminate\Http\Request;
 use App\Models\DonationPost;
@@ -53,10 +55,24 @@ class DonationPostController extends Controller
         );
     }
 
+    public function indexCampaign()
+    {
+        // Get Data
+        $campaigns = DonationPost::Where('post_type_id', 3)->latest()->get();
+
+        // Return Response
+        return response()->success(
+            'this is all DonationPosts',
+            [
+                "donationPosts" => CampaignResource::collection($campaigns),
+            ]
+        );
+    }
+
     public function storeCampaign(Request $request)
     {
         // Data Validate
-        $data = $request->validate([
+        $request->validate([
             'title'            => 'required',
             'description'      => 'required',
             'start_date'       => 'required',
@@ -67,33 +83,69 @@ class DonationPostController extends Controller
             'city_id'          => 'required',
         ]);
 
-        // Store DonationPost
-        $donationPost = DonationPost::create($data);
+        $branch = Branch::find($request->branch_id);
+        $charitablefoundation = $branch->charitablefoundation;
 
-        $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
+        $campaignDate = [
+            'title'                     => $request->title,
+            'description'               => $request->description,
+            'start_date'                => $request->start_date,
+            'end_date'                  => $request->end_date,
+            'amount_required'           => $request->amount_required,
+            'branch_id'                 => $request->branch_id,
+            'post_type_id'              => $request->post_type_id,
+            'city_id'                   => $request->city_id,
+            'charitablefoundation_id'  => $charitablefoundation->id,
+        ];
+
+        // Store DonationPost
+        $campaign = DonationPost::create($campaignDate);
+
+        $campaign->statusTypes()->sync(json_decode($request->status_type_id));
 
         // Add Image to DonationPost
         $request->hasFile('image') &&
-            $donationPost
+            $campaign
             ->addMediaFromRequest('image')
             ->toMediaCollection('DonationPost');
 
+
+        // Add News
+
+        $newsData = [
+            'title'             => $request->title,
+            'description'       => 'New humanitarian relief campaigns is added for supporting in branch ' . $branch->name,
+            'branch_id'         => $request->branch_id,
+        ];
+        // Store News
+        $news = $campaign->news()->create($newsData);
+
+
+        // Add Image to News
+        $request->hasFile('image') &&
+            $news
+            ->addMedia($campaign->getFirstMediaPath('DonationPost'))
+            ->preservingOriginal()
+            ->toMediaCollection('News');
+
+
+
+
         // Return Response
         return response()->success(
-            'donationPost is added success',
+            'campaign is added success',
             [
-                "donationPost" => new DonationPostResource($donationPost),
+                "campaign" => new CampaignResource($campaign),
             ]
         );
     }
-
 
     public function store(Request $request)
     {
         DB::beginTransaction();
         try {
             // donationPost Data Validate
-            $donationPostDate = $request->validate([
+            $request->validate([
                 'title'            => 'required',
                 'description'      => 'required',
                 'start_date'       => 'required',
@@ -104,21 +156,37 @@ class DonationPostController extends Controller
                 'city_id'          => 'required',
             ]);
 
+            $branch = Branch::find($request->branch_id);
+            $charitablefoundation = $branch->charitablefoundation;
+
+            $donationPostDate = [
+                'title'                     => $request->title,
+                'description'               => $request->description,
+                'start_date'                => $request->start_date,
+                'end_date'                  => $request->end_date,
+                'amount_required'           => $request->amount_required,
+                'branch_id'                 => $request->branch_id,
+                'post_type_id'              => $request->post_type_id,
+                'city_id'                   => $request->city_id,
+                'charitablefoundation_id'  => $charitablefoundation->id,
+            ];
+
             // Store DonationPost
             $donationPost = DonationPost::create($donationPostDate);
 
-            $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
+            $request->status_type_id &&
+                $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
 
             // Add Image to DonationPost
+
             $request->hasFile('image') &&
                 $donationPost
                 ->addMediaFromRequest('image')
                 ->toMediaCollection('DonationPost');
 
 
-
             // State Data Validate
-            $stateData = $request->validate([
+            $data = $request->validate([
                 'first_name'         => 'required',
                 'last_name'          => 'required',
                 'id_number'          => 'required',
@@ -127,6 +195,15 @@ class DonationPostController extends Controller
                 'mother_name'        => 'required',
             ]);
 
+            $stateData = [
+                'first_name'                => $request->first_name,
+                'last_name'                 => $request->last_name,
+                'id_number'                 => $request->id_number,
+                'phone_number'              => $request->phone_number,
+                'father_name'               => $request->father_name,
+                'mother_name'               => $request->mother_name,
+                'charitablefoundation_id'  => $charitablefoundation->id,
+            ];
             // Store State
             $state = $donationPost->state()->create($stateData);
 
@@ -148,8 +225,30 @@ class DonationPostController extends Controller
                 ->toMediaCollection('IdCardBack');
 
 
-            DB::commit();
 
+            // add news
+
+            $newsData = [
+                'title'             => $request->title,
+                'description'       => 'New humanitarian and medical case is added for supporting in branch ' . $branch->name,
+                'branch_id'         => $request->branch_id,
+            ];
+            // Store State
+
+            $news = $donationPost->news()->create($newsData);
+
+            // Add Image to News
+            $request->hasFile('image') &&
+                $news
+                ->addMedia($donationPost->getFirstMediaPath('DonationPost'))
+                ->preservingOriginal()
+                ->toMediaCollection('News');
+
+
+
+
+
+            DB::commit();
 
             // Return Response
             return response()->success(

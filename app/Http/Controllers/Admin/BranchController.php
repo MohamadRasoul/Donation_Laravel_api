@@ -91,6 +91,27 @@ class BranchController extends Controller
         );
     }
 
+
+
+    public function addAmountDelivery(Request $request, Branch $branch)
+    {
+        // Data Validate
+        $data = $request->validate([
+            'amount'    => 'required',
+        ]);
+
+        // Update Branch
+        $branch->increment('amount_delivery', $request->amount);
+
+        // Return Response
+        return response()->success(
+            'add mony success to branch',
+            [
+                "branch" => new BranchResource($branch),
+            ]
+        );
+    }
+
     public function destroy(Branch $branch)
     {
         // Delete Branch

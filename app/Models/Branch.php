@@ -22,11 +22,28 @@ class Branch extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function donationPosts()
+    {
+        return $this->hasMany(DonationPost::class);
+    }
+
+    public function cases()
+    {
+        return $this->hasMany(DonationPost::class)->where('post_type_id', 1);
+    }
+
+    public function sponsorShips()
+    {
+        return $this->hasMany(DonationPost::class)->where('post_type_id', 2);
+    }
+
+    public function campigns()
+    {
+        return $this->hasMany(DonationPost::class)->where('post_type_id', 3);
+    }
+
     public function charitablefoundation()
     {
         return $this->belongsTo(Charitablefoundation::class);
     }
-
-
-
 }
