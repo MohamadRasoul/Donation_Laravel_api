@@ -101,6 +101,7 @@ class DonationPostController extends Controller
         // Store DonationPost
         $campaign = DonationPost::create($campaignDate);
 
+
         $campaign->statusTypes()->sync(json_decode($request->status_type_id));
 
         // Add Image to DonationPost
@@ -174,8 +175,7 @@ class DonationPostController extends Controller
             // Store DonationPost
             $donationPost = DonationPost::create($donationPostDate);
 
-            $request->status_type_id &&
-                $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
+            $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
 
             // Add Image to DonationPost
 
@@ -295,6 +295,7 @@ class DonationPostController extends Controller
 
             // Store DonationPost
             $donationPost->update($donationPostDate);
+
 
             $donationPost->statusTypes()->sync(json_decode($request->status_type_id));
 

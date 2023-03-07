@@ -37,6 +37,28 @@ class DonationPostController extends Controller
             ]
         );
     }
+    public function indexRandomly()
+    {
+        // Get Data
+        $donationPostsQuery = DonationPost::query()
+            ->where('start_date', '<', Carbon::now())
+            ->where('end_date', '>', Carbon::now())->inRandomOrder();
+
+        $donationPosts = QueryBuilder::for($donationPostsQuery)
+            ->allowedFilters([
+                AllowedFilter::exact('donation_type_id'),
+                AllowedFilter::exact('post_type_id'),
+                AllowedFilter::exact('city_id'),
+            ])->get();
+
+        // Return Response
+        return response()->success(
+            'this is all DonationPosts',
+            [
+                "donationPosts" => DonationPostResource::collection($donationPosts),
+            ]
+        );
+    }
 
     public function indexByCharitablefoundation(Charitablefoundation $charitablefoundation)
     {
@@ -58,6 +80,18 @@ class DonationPostController extends Controller
             'this is all DonationPosts',
             [
                 "donationPosts" => DonationPostResource::collection($donationPosts),
+            ]
+        );
+    }
+
+
+    public function show(DonationPost $donationPost)
+    {
+        // Return Response
+        return response()->success(
+            'this is your donationPost',
+            [
+                "donationPost" => new DonationPostResource($donationPost),
             ]
         );
     }

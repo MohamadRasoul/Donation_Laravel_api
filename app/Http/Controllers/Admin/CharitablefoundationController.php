@@ -161,7 +161,7 @@ class CharitablefoundationController extends Controller
         $data = $request->validate([
             'name'           => 'required|regex:/(^[A-Za-z ]+$)+/',
             'description'    => 'required',
-            'website'        => 'required',
+            'website'        => 'required|url',
             'email'          => 'required|email',
             'phone_number'   => 'required',
         ]);
@@ -208,7 +208,7 @@ class CharitablefoundationController extends Controller
         $data = $request->validate([
             'name'           => 'nullable|regex:/(^[A-Za-z ]+$)+/',
             'description'    => 'nullable',
-            'website'        => 'nullable',
+            'website'        => 'nullable|url',
             'email'          => 'nullable|email',
             'phone_number'   => 'nullable',
         ]);

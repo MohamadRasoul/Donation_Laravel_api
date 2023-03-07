@@ -4,101 +4,68 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\UserResource;
-use App\Models\User;
-
+use App\Http\Resources\DonationPostResource;
+use App\Models\DonationPost;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
-
-    public function index()
+    public function donate(Request $request, DonationPost $donationPost)
     {
-        // Get Data
-        $users = User::latest()->get();
-
-        // Return Response
-        return response()->success(
-            'this is all Users',
-            [
-                "users" => UserResource::collection($users),
-            ]
-        );
-    }
-
-
-    public function store(Request $request)
-    {
-
         // Data Validate
         $data = $request->validate([
-            'name'          => 'required',
+            'amount'     => 'required',
+        ]);
+        $user = auth()->user();
+
+        $user->donationPostsDonations()->attach($donationPost->id, [
+            'amount'   => $request->amount
         ]);
 
-
-        // Store User
-        $user = User::create($data);
-
-
-        // Add Image to User
-        $user
-            ->addMediaFromRequest('image')
-            ->toMediaCollection('User');
+        $donationPost->increment('amount_donated', $request->amount);
 
         // Return Response
         return response()->success(
             'user is added success',
             [
-                "user" => new UserResource($user),
+                "user" => new DonationPostResource($donationPost),
             ]
         );
     }
 
-
-    public function show(User $user)
-    {
-        // Return Response
-        return response()->success(
-            'this is your user',
-            [
-                "user" => new UserResource($user),
-            ]
-        );
-    }
-
-    public function update(Request $request, User $user)
+    public function sponsor(Request $request, DonationPost $donationPost)
     {
         // Data Validate
         $data = $request->validate([
-            'name'          => 'nullable',
+            'month_count'      => 'required',
+            'month_to_pay'     => 'required',
         ]);
 
-        // Update User
-        $user->update($data);
+        $user = auth()->user();
+
+        $nextMonth = Carbon::parse($request->month_to_pay);
+
+        for ($i = 1; $i <= $request->month_count; $i++) {
+            
+            $user->donationPostsSponsorShips()->attach($donationPost->id, [
+                'amount'   => $donationPost->amount_required,
+                'month_to_pay'   => $nextMonth
+            ]);
+
+            $nextMonth = $nextMonth->addMonth(1);
+        }
 
 
-        // Edit Image for  User if exist
-        $request->hasFile('image') &&
-            $user
-                ->addMediaFromRequest('image')
-                ->toMediaCollection('User');
-        };
-
-
+        // dd($nextMonth->startOfMonth());
+        $donationPost->update([
+            'start_date' => $nextMonth->startOfMonth()->format('Y-m-d')
+        ]);
         // Return Response
         return response()->success(
-            'user is updated success',
+            'user is added success',
             [
-                "user" => new UserResource($user),
+                "user" => new DonationPostResource($donationPost),
             ]
         );
-    }
-
-    public function destroy(User $user)
-    {
-        // Delete User
-        $user->delete();
-
-        // Return Response
-        return response()->success('user is deleted success');
     }
 }

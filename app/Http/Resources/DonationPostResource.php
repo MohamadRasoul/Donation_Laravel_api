@@ -32,7 +32,9 @@ class DonationPostResource extends JsonResource
             "city_id"                    =>  $this->city_id,
             "city"                       =>  $this->city->name,
             "charitableFoundation"       =>  $this->charitablefoundation->name,
+            "charitableFoundation_id"       =>  $this->charitablefoundation->id,
             "charitableFoundation_image" =>  $this->charitablefoundation->getFirstMediaUrl('Charitablefoundation'),
+            "post_type_id"               =>  $this->post_type_id,
             "status_type_id"             =>  $this->statusTypes->pluck('id'),
             "status_types"               =>  StatusTypeResource::collection($this->statusTypes),
 

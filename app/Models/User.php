@@ -34,7 +34,16 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(SponsorShip::class);
     }
-    
+
+    public function donationPostsDonations()
+    {
+        return $this->belongsToMany(DonationPost::class, 'donations')->withPivot(['amount'])->withTimestamps();
+    }
+
+    public function donationPostsSponsorShips()
+    {
+        return $this->belongsToMany(DonationPost::class, 'sponsor_ships')->withPivot(['amount', 'month_to_pay'])->withTimestamps();
+    }
 
 
     ########## Libraries ##########
